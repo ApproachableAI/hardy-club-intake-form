@@ -82,6 +82,15 @@ a:hover { color: var(--rust-600); }
   color: var(--ink-500);
 }
 
+
+/* Small screens: keep the masthead on one line and let the eyebrow breathe. */
+@media (max-width: 34rem) {
+  .masthead b { font-size: 0.95rem; white-space: nowrap; }
+  .masthead span { display: none; }
+  .masthead img { width: 28px; }
+  .eyebrow { letter-spacing: 0.07em; font-size: 0.72rem; }
+}
+
 /* -------------------------------------------------------------------- hero */
 
 .hero { padding: 3.25rem 0 2.5rem; }
