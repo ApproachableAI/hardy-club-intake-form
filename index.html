@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Never miss a renewal date — Approachable Intelligence</title>
+<meta name="description" content="Send us the date you cannot afford to miss. It goes straight into the reminder system, and you get a note before it comes due.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/intake.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <img src="assets/brain.png" alt="" aria-hidden="true">
+    <b>Approachable Intelligence</b>
+    <span>Reminder intake</span>
+  </div>
+</header>
+
+<main class="intake-main">
+  <div class="wrap">
+
+    <div class="intake-hero">
+      <p class="eyebrow">Deadline reminders</p>
+      <h1>Tell us the date you cannot afford to miss.</h1>
+      <p class="byline">Send it over once. From then on it sits in the same reminder engine that watches renewals, inspections, and compliance dates, and you get a note before it comes due.</p>
+    </div>
+
+    <div class="intake-card">
+      <form id="intake-form" name="renewal-intake" method="POST" data-netlify="true" netlify-honeypot="company-website">
+        <input type="hidden" name="form-name" value="renewal-intake">
+        <p hidden><label>Leave this empty <input name="company-website"></label></p>
+
+        <div class="field-row">
+          <div>
+            <label for="f-name">Your name</label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required>
+          </div>
+          <div>
+            <label for="f-email">Email</label>
+            <input type="email" id="f-email" name="email" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="field-single">
+          <label for="f-date">Renewal or deadline date</label>
+          <input type="date" id="f-date" name="date" required>
+          <p class="microcopy">This is the date the reminder is built around. Everything else is just so we know who to send it to.</p>
+        </div>
+
+        <button type="submit">Add this to the reminder list</button>
+        <p class="lead-status" id="intake-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="thanks" id="intake-thanks" hidden tabindex="-1">
+        <p><b>That is in the system.</b></p>
+        <p id="intake-thanks-detail">The reminder is set. You will hear from us before the date comes due, not after.</p>
+        <p><button type="button" id="intake-again" class="ghost">Add another date</button></p>
+      </div>
+    </div>
+
+    <p class="intake-foot">
+      <b>Approachable Intelligence</b> &middot;
+      <a href="mailto:ty@approachableintelligence.ai">ty@approachableintelligence.ai</a> &middot;
+      <a href="https://approachableintelligence.ai">approachableintelligence.ai</a>
+    </p>
+
+  </div>
+</main>
+
+<script src="config.js"></script>
+<script src="assets/intake.js"></script>
+</body>
+</html>
