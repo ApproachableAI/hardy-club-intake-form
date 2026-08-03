@@ -3,79 +3,121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Never miss a renewal date — Approachable Intelligence</title>
-<meta name="description" content="Send us the date you cannot afford to miss. It goes straight into the reminder system, and you get a note before it comes due.">
+<title>New hire welcome form — Approachable Intelligence</title>
+<meta name="description" content="Welcome aboard. A few details before your first day.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="stylesheet" href="assets/intake.css">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/onboarding.css">
 </head>
 <body>
 
-<header class="masthead">
+<header class="doc-header">
   <div class="wrap">
     <img src="assets/brain.png" alt="" aria-hidden="true">
     <b>Approachable Intelligence</b>
-    <span>Reminder intake</span>
+    <span class="contact">People Operations<br>info@approachableintelligence.ai</span>
   </div>
 </header>
 
-<main class="intake-main">
+<main>
   <div class="wrap">
 
-    <div class="intake-hero">
-      <p class="eyebrow">Deadline reminders</p>
-      <h1>Tell us the date you cannot afford to miss.</h1>
-      <p class="byline">Send it over once. From then on it sits in the same reminder engine that watches renewals, inspections, and compliance dates, and you get a note before it comes due.</p>
+    <p class="eyebrow">New hire welcome form</p>
+    <h1>Welcome aboard. A few details before your first day.</h1>
+    <div class="intro">
+      <p>This is the only form we will ask you to fill in before you start. It takes about a minute, and it is how you get into the team directory.</p>
+      <p class="time">Nothing here is a test. The last three questions are so the team knows something about you before you walk in.</p>
     </div>
 
-    <div class="intake-card">
-      <form id="intake-form" name="renewal-intake" method="POST" data-netlify="true" netlify-honeypot="company-website">
-        <input type="hidden" name="form-name" value="renewal-intake">
-        <p hidden><label>Leave this empty <input name="company-website"></label></p>
+    <div class="sheet">
+      <form id="hire-form" name="new-hire-welcome" method="POST" data-netlify="true" netlify-honeypot="middle-name">
+        <input type="hidden" name="form-name" value="new-hire-welcome">
+        <input type="hidden" name="type" value="onboarding">
+        <p hidden><label>Leave this empty <input name="middle-name"></label></p>
 
-        <div class="field-row">
-          <div>
-            <label for="f-name">Your name</label>
-            <input type="text" id="f-name" name="name" autocomplete="name" required>
+        <fieldset>
+          <legend>Section 1 &middot; The basics</legend>
+          <p class="legend-note">This is what goes in the directory.</p>
+          <div class="grid">
+            <div class="field">
+              <label for="f-name">Full name</label>
+              <input type="text" id="f-name" name="name" autocomplete="name" required placeholder="Jordan Reyes">
+            </div>
+            <div class="field">
+              <label for="f-email">Work email</label>
+              <input type="email" id="f-email" name="email" autocomplete="email" required placeholder="jordan@company.com">
+            </div>
           </div>
-          <div>
-            <label for="f-email">Email</label>
-            <input type="email" id="f-email" name="email" autocomplete="email" required>
+          <div class="field">
+            <label for="f-birthday">Your birthday
+              <span class="hint">Month and day are what matter. Nobody sees the year.</span>
+            </label>
+            <input type="date" id="f-birthday" name="birthdate" required>
           </div>
-        </div>
+        </fieldset>
 
-        <div class="field-single">
-          <label for="f-date">Renewal or deadline date</label>
-          <input type="date" id="f-date" name="date" required>
-          <p class="microcopy">This is the date the reminder is built around. Everything else is just so we know who to send it to.</p>
-        </div>
+        <fieldset>
+          <legend>Section 2 &middot; So we know you a little</legend>
+          <p class="legend-note">Three quick ones. There are no wrong answers.</p>
+          <div class="field">
+            <label for="f-snack">Favorite candy or snack</label>
+            <input type="text" id="f-snack" name="snack" required placeholder="Sour Patch Kids">
+          </div>
+          <div class="field">
+            <label for="f-restaurant">Favorite restaurant</label>
+            <input type="text" id="f-restaurant" name="restaurant" required placeholder="the taco place on Tennyson">
+          </div>
+          <div class="field">
+            <label for="f-fact">One fun fact about you</label>
+            <input type="text" id="f-fact" name="funFact" required placeholder="I have summited 31 of the 58 fourteeners">
+          </div>
+        </fieldset>
 
-        <button type="submit">Add this to the reminder list</button>
-        <p class="lead-status" id="intake-status" role="status" aria-live="polite"></p>
+        <button type="submit">Submit and join the team directory</button>
+        <p class="status" id="form-status" role="status" aria-live="polite"></p>
+        <p class="submit-note">You do not need to tell us your start date. The system records it when you submit.</p>
       </form>
 
-      <div class="thanks" id="intake-thanks" hidden tabindex="-1">
-        <p><b>That is in the system.</b></p>
-        <p id="intake-thanks-detail">The reminder is set. You will hear from us before the date comes due, not after.</p>
-        <p><button type="button" id="intake-again" class="ghost">Add another date</button></p>
+      <div class="confirmed" id="confirmed" hidden tabindex="-1">
+        <h2>You are in the directory.</h2>
+        <p id="confirmed-lede">Thanks. Here is exactly what the system now has on file for you.</p>
+
+        <div class="receipt">
+          <p class="receipt-head">Employee record created</p>
+          <dl>
+            <div><dt>Name</dt><dd id="r-name"></dd></div>
+            <div><dt>Email</dt><dd id="r-email"></dd></div>
+            <div><dt>Birthday</dt><dd id="r-birthday"></dd></div>
+            <div class="auto"><dt>Hire date</dt><dd id="r-hire"></dd></div>
+            <div><dt>Favorite snack</dt><dd id="r-snack"></dd></div>
+            <div><dt>Favorite restaurant</dt><dd id="r-restaurant"></dd></div>
+            <div><dt>Fun fact</dt><dd id="r-fact"></dd></div>
+          </dl>
+        </div>
+
+        <div class="next-up">
+          <p id="next-up-copy"></p>
+        </div>
+
+        <p style="margin-top:1.2rem"><button type="button" class="ghost" id="add-another">Add another new hire</button></p>
       </div>
     </div>
-
-    <p class="intake-foot">
-      <b>Approachable Intelligence</b> &middot;
-      <a href="mailto:ty@approachableintelligence.ai">ty@approachableintelligence.ai</a> &middot;
-      <a href="https://approachableintelligence.ai">approachableintelligence.ai</a>
-    </p>
 
   </div>
 </main>
 
+<footer class="doc-footer">
+  <div class="wrap">
+    <span>Approachable Intelligence, LLC &middot; approachableintelligence.ai</span>
+    <span>People Operations</span>
+  </div>
+</footer>
+
 <script src="config.js"></script>
-<script src="assets/intake.js"></script>
+<script src="assets/onboarding.js"></script>
 </body>
 </html>

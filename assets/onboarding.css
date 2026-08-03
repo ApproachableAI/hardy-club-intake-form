@@ -1,0 +1,218 @@
+/* New hire welcome form.
+   Deliberately a different surface from the recap page: this is the forest
+   green and cream document palette from the brand style master, set in Lato,
+   so it reads as an internal HR page rather than a marketing page. */
+
+:root {
+  --brand-green: #486850;
+  --forest: #3b5e26;
+  --sage: #506a4f;
+  --petrol: #1b4b4f;
+  --teal: #447071;
+  --cream: #f4f4f0;
+  --white: #ffffff;
+  --charcoal: #222621;
+  --rule: #d7dcd5;
+  --wrap: 42rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: Lato, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+h1, h2, h3 { font-weight: 700; line-height: 1.2; margin: 0; }
+h1 { color: var(--forest); font-size: clamp(1.7rem, 5vw, 2.15rem); }
+h2 { color: var(--brand-green); font-size: 1.15rem; }
+p { margin: 0 0 1rem; }
+
+a { color: var(--teal); }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+.wrap { width: min(100% - 2.5rem, var(--wrap)); margin-inline: auto; }
+
+/* ------------------------------------------------------------------ header */
+
+.doc-header {
+  background: var(--white);
+  border-bottom: 1.5px solid var(--forest);
+}
+.doc-header .wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 0;
+}
+.doc-header img { width: 34px; height: auto; display: block; }
+.doc-header b { font-size: 1rem; font-weight: 700; color: var(--forest); }
+.doc-header .contact {
+  margin-left: auto;
+  text-align: right;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--sage);
+}
+@media (max-width: 32rem) {
+  .doc-header .contact { display: none; }
+  .doc-header b { font-size: 0.94rem; }
+}
+
+/* -------------------------------------------------------------------- page */
+
+main { padding: 2.5rem 0 3rem; }
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin: 0 0 0.7rem;
+}
+.intro { margin: 0.85rem 0 1.9rem; max-width: 34rem; color: var(--charcoal); }
+.intro .time { color: var(--sage); font-size: 0.9rem; }
+
+.sheet {
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--brand-green);
+  border-radius: 6px;
+  padding: 1.6rem;
+}
+@media (min-width: 38rem) { .sheet { padding: 2rem 2.25rem; } }
+
+fieldset { border: none; margin: 0 0 1.9rem; padding: 0; }
+fieldset:last-of-type { margin-bottom: 1.2rem; }
+legend {
+  padding: 0;
+  margin-bottom: 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--petrol);
+}
+.legend-note { font-size: 0.87rem; color: var(--sage); margin: 0 0 1.1rem; }
+
+.grid { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; }
+@media (max-width: 34rem) { .grid { grid-template-columns: 1fr; } }
+.field { margin-bottom: 1rem; }
+.field:last-child { margin-bottom: 0; }
+
+label { display: block; font-size: 0.87rem; font-weight: 700; margin-bottom: 0.3rem; }
+.hint { display: block; font-weight: 400; font-size: 0.82rem; color: var(--sage); margin-top: 0.1rem; }
+
+input[type="text"], input[type="email"], input[type="date"] {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--charcoal);
+  background: var(--white);
+  border: 1px solid #b9c2b8;
+  border-radius: 4px;
+  padding: 0.6rem 0.7rem;
+}
+input:focus { border-color: var(--teal); }
+input::placeholder { color: #9aa79a; }
+
+button {
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background: var(--brand-green);
+  color: var(--cream);
+  padding: 0.75rem 1.5rem;
+  transition: background 0.15s ease;
+}
+button:hover:not(:disabled) { background: var(--forest); }
+button:disabled { opacity: 0.6; cursor: default; }
+#hire-form button[type="submit"] { width: 100%; }
+@media (min-width: 34rem) { #hire-form button[type="submit"] { width: auto; } }
+
+.submit-note { font-size: 0.85rem; color: var(--sage); margin: 0.85rem 0 0; }
+.status { font-size: 0.9rem; margin: 0.7rem 0 0; min-height: 1.2rem; }
+.status.is-error { color: #8e4125; font-weight: 700; }
+
+/* ---------------------------------------------------------- success state */
+
+.confirmed { }
+.confirmed h2 { color: var(--forest); font-size: 1.35rem; margin-bottom: 0.6rem; }
+.receipt {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  margin: 1.2rem 0;
+  overflow: hidden;
+}
+.receipt-head {
+  background: var(--petrol);
+  color: var(--cream);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.9rem;
+}
+.receipt dl { margin: 0; }
+.receipt div {
+  display: flex;
+  gap: 1rem;
+  padding: 0.55rem 0.9rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.92rem;
+}
+.receipt div:nth-child(odd) { background: var(--cream); }
+.receipt dt { width: 11rem; flex: none; color: var(--sage); font-weight: 700; }
+.receipt dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.receipt .auto dd { color: var(--forest); font-weight: 700; }
+.receipt .auto dt::after {
+  content: " (automatic)";
+  font-weight: 400;
+  font-style: italic;
+  color: #8fa08e;
+}
+@media (max-width: 30rem) {
+  .receipt div { display: block; }
+  .receipt dt { width: auto; margin-bottom: 0.1rem; }
+}
+
+.next-up {
+  background: var(--cream);
+  border-left: 3px solid var(--brand-green);
+  padding: 0.85rem 1rem;
+  font-size: 0.93rem;
+}
+.next-up p:last-child { margin-bottom: 0; }
+button.ghost {
+  background: transparent;
+  color: var(--teal);
+  padding: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+button.ghost:hover:not(:disabled) { background: transparent; color: var(--forest); }
+
+/* ------------------------------------------------------------------ footer */
+
+.doc-footer {
+  background: var(--petrol);
+  color: var(--cream);
+  margin-top: 2.5rem;
+  padding: 1rem 0;
+  font-size: 0.8rem;
+}
+.doc-footer .wrap { display: flex; gap: 1rem; flex-wrap: wrap; }
+.doc-footer span:last-child { margin-left: auto; color: #a9c0c0; }
