@@ -12,5 +12,5 @@
  * For a dry run without committing, append ?endpoint=<url> to the page URL.
  */
 window.AI_CONFIG = {
-  leadEndpoint: ''
+  leadEndpoint: 'https://script.google.com/macros/s/AKfycbx_6vLAjlNzIHvLL1XmRgMH_B_YCgMSr1UccKhFELAimrVz80NY5spi6MzGfQ-QcsBl/exec'
 };
