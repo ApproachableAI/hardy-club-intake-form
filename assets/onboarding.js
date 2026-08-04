@@ -18,19 +18,47 @@
     return (window.AI_CONFIG && window.AI_CONFIG.leadEndpoint) || '';
   }
 
-  /* With no endpoint there is nothing to post to, and every submission would
-     fail in a way that reads like a bug. Say so on load instead, since the
-     only person who ever sees this page unconfigured is whoever is setting
-     it up. Once leadEndpoint is filled in, this never renders. */
-  if (!endpoint()) {
-    var warn = document.createElement('div');
-    warn.className = 'setup-warning';
-    warn.setAttribute('role', 'status');
-    warn.innerHTML =
+  /* The Apps Script web app URL, which is the one that ends in /exec. It is
+     easy to reach for the spreadsheet URL instead, because that is the tab you
+     are looking at when you go hunting for it. Both Workspace-domain and
+     personal deployments are accepted. */
+  function looksLikeWebApp(url) {
+    return /^https:\/\/script\.google\.com\/(a\/)?macros\/(.+\/)?s\/[\w-]+\/exec/.test(url);
+  }
+
+  function endpointProblem() {
+    var url = endpoint();
+    if (!url) return 'missing';
+    if (/docs\.google\.com\/spreadsheets/.test(url)) return 'spreadsheet';
+    if (!looksLikeWebApp(url)) return 'not-a-web-app';
+    return null;
+  }
+
+  var SETUP_COPY = {
+    missing:
       '<b>Not connected to the roster yet.</b> No endpoint is configured, so ' +
       'submissions cannot reach the Employees tab. Paste the Apps Script ' +
       '/exec URL into <code>config.js</code> as <code>leadEndpoint</code>, or ' +
-      'add <code>?endpoint=YOUR_EXEC_URL</code> to this page URL to try one now.';
+      'add <code>?endpoint=YOUR_EXEC_URL</code> to this page URL to try one now.',
+    spreadsheet:
+      '<b>That is the spreadsheet URL, not the web app URL.</b> This needs the ' +
+      'address of the deployed Apps Script, which looks like ' +
+      '<code>https://script.google.com/macros/s/AKfyc.../exec</code> and always ' +
+      'ends in <code>/exec</code>. Find it in the script editor under ' +
+      '<b>Deploy > Manage deployments</b>, in the <b>Web app</b> box.',
+    'not-a-web-app':
+      '<b>That does not look like an Apps Script web app URL.</b> It should ' +
+      'start with <code>https://script.google.com/</code> and end in ' +
+      '<code>/exec</code>. Find it under <b>Deploy > Manage deployments</b>, ' +
+      'in the <b>Web app</b> box.'
+  };
+
+  var problem = endpointProblem();
+  if (problem) {
+    var warn = document.createElement('div');
+    warn.className = 'setup-warning';
+    warn.setAttribute('role', 'status');
+    warn.innerHTML = SETUP_COPY[problem];
     form.parentNode.insertBefore(warn, form);
   }
 
@@ -52,7 +80,8 @@
      preflight an Apps Script web app cannot answer. */
   function sendToAppsScript(payload) {
     var url = endpoint();
-    if (!url) return Promise.reject(new Error('no endpoint configured'));
+    var problem = endpointProblem();
+    if (problem) return Promise.reject(new Error('endpoint problem: ' + problem));
 
     return fetch(url, {
       method: 'POST',
@@ -145,13 +174,17 @@
         submit.disabled = false;
         submit.textContent = 'Submit and join the team directory';
 
-        // Two very different situations that used to produce one message.
-        // "Not configured" is a setup step. Anything else is a real failure.
-        status.textContent = /no endpoint configured/.test(err && err.message)
-          ? 'Setup step missing: no endpoint is configured, so this could not '
-            + 'reach the roster. Your answers were saved. See the notice above.'
-          : 'That did not reach the directory. Your answers were saved, and '
-            + 'People Operations can add you by hand.';
+        // A setup mistake and a real delivery failure used to produce the same
+        // message, which sent you looking for a bug that was not there.
+        var msg = (err && err.message) || '';
+        status.textContent = /endpoint problem: spreadsheet/.test(msg)
+          ? 'That endpoint is the spreadsheet URL, not the Apps Script web app '
+            + 'URL. See the notice above for where to find the right one.'
+          : /endpoint problem:/.test(msg)
+            ? 'Setup step missing: this is not pointed at a deployed Apps Script '
+              + 'web app, so it could not reach the roster. See the notice above.'
+            : 'That did not reach the directory. Your answers were saved, and '
+              + 'People Operations can add you by hand.';
         status.className = 'status is-error';
         console.error('[onboarding]', err);
       });
