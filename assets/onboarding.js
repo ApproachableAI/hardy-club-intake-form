@@ -18,6 +18,22 @@
     return (window.AI_CONFIG && window.AI_CONFIG.leadEndpoint) || '';
   }
 
+  /* With no endpoint there is nothing to post to, and every submission would
+     fail in a way that reads like a bug. Say so on load instead, since the
+     only person who ever sees this page unconfigured is whoever is setting
+     it up. Once leadEndpoint is filled in, this never renders. */
+  if (!endpoint()) {
+    var warn = document.createElement('div');
+    warn.className = 'setup-warning';
+    warn.setAttribute('role', 'status');
+    warn.innerHTML =
+      '<b>Not connected to the roster yet.</b> No endpoint is configured, so ' +
+      'submissions cannot reach the Employees tab. Paste the Apps Script ' +
+      '/exec URL into <code>config.js</code> as <code>leadEndpoint</code>, or ' +
+      'add <code>?endpoint=YOUR_EXEC_URL</code> to this page URL to try one now.';
+    form.parentNode.insertBefore(warn, form);
+  }
+
   function encode(data) {
     return Object.keys(data)
       .map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]); })
@@ -125,13 +141,19 @@
         confirmed.hidden = false;
         confirmed.focus();
       })
-      .catch(function () {
+      .catch(function (err) {
         submit.disabled = false;
         submit.textContent = 'Submit and join the team directory';
-        status.textContent =
-          'That did not reach the directory. Your answers were saved, and People '
-          + 'Operations can add you by hand.';
+
+        // Two very different situations that used to produce one message.
+        // "Not configured" is a setup step. Anything else is a real failure.
+        status.textContent = /no endpoint configured/.test(err && err.message)
+          ? 'Setup step missing: no endpoint is configured, so this could not '
+            + 'reach the roster. Your answers were saved. See the notice above.'
+          : 'That did not reach the directory. Your answers were saved, and '
+            + 'People Operations can add you by hand.';
         status.className = 'status is-error';
+        console.error('[onboarding]', err);
       });
   });
 })();
